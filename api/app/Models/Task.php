@@ -13,11 +13,16 @@ class Task extends Model
         'name',
         'description',
         'due_date',
-        'completed',
+        'completed_at',
     ];
 
     protected $casts = [
         'due_date' => 'datetime',
-        'completed' => 'boolean',
+        'completed_at' => 'datetime',
     ];
+
+    public function scopeCompleted($query)
+    {
+        return $query->whereNotNull('completed_at');
+    }
 }

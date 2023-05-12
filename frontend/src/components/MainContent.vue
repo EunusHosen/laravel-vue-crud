@@ -9,7 +9,7 @@ defineProps({
 
 <template>
   <div>
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between">
       <div class="min-w-0 flex-1">
         <h2
           class="text-2xl font-bold leading-7 text-gray-800 sm:truncate sm:text-3xl sm:tracking-tight"
@@ -22,7 +22,7 @@ defineProps({
         </div>
       </div>
 
-      <div v-if="$slots.actions" class="flex md:ml-4 md:mt-0">
+      <div v-if="$slots.actions" class="flex gap-4 mt-4 md:ml-4 md:mt-0">
         <slot name="actions"></slot>
       </div>
     </div>

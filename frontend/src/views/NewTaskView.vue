@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useTasksStore } from '@/stores/tasks'
 import { useAppStore } from '@/stores/app'
+import { useTasksStore } from '@/stores/tasks'
 import TaskForm from '@/components/tasks/TaskForm.vue'
 import MainContent from '@/components/MainContent.vue'
 
@@ -14,9 +14,17 @@ const taskStore = useTasksStore()
 const appStore = useAppStore()
 
 const submit = (task) => {
-  taskStore.addTask(task)
-  appStore.setSuccessMessage('Task added successfully')
-  router.push({ name: 'home' })
+  taskStore
+    .addTask(task)
+    .then(() => {
+      appStore.setSuccessMessage('Task added successfully')
+      router.push({ name: 'home' })
+    })
+    .catch((error) => {
+      Object.keys(error.response.data.errors).forEach((key) => {
+        errors[key] = error.response.data.errors[key]
+      })
+    })
 }
 </script>
 

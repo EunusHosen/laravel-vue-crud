@@ -10,7 +10,12 @@ class TaskRepository
 {
     public function paginate($perPage = 15): LengthAwarePaginator
     {
-        return Task::query()->paginate($perPage);
+        return Task::query()->orderBy('due_date')->whereNull('completed_at')->paginate($perPage);
+    }
+
+    public function completed($perPage = 15): LengthAwarePaginator
+    {
+        return Task::query()->completed()->latest('completed_at')->paginate($perPage);
     }
 
     public function create(array $data): Task|Model
@@ -37,7 +42,7 @@ class TaskRepository
     public function toggleComplete(Task $task): Task
     {
         $task->update([
-            'completed' => !$task->completed,
+            'completed_at' => $task->completed_at ? null : now(),
         ]);
 
         return $task;

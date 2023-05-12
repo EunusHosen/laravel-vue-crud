@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
 import FormError from '@/components/form/FormError.vue'
 import InputLabel from '@/components/form/InputLabel.vue'
 import InputField from '@/components/form/InputField.vue'
@@ -32,9 +32,9 @@ const props = defineProps({
 })
 
 const task = reactive({
-  name: props.name ?? '',
-  description: props.description ?? '',
-  dueDate: props.dueDate ?? ''
+  name: props.name || '',
+  description: props.description || '',
+  dueDate: props.dueDate || ''
 })
 
 let validationErrors = reactive(props.errors)

@@ -21,7 +21,7 @@ class UpdateTaskRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => [
                 'required',
                 'string',
@@ -32,12 +32,17 @@ class UpdateTaskRequest extends FormRequest
                 'string',
                 'max:2000',
             ],
-            'dueDate' => [
+        ];
+
+        if ($this->route('task')->due_date !== $this->get('dueDate')) {
+            $rules['dueDate'] = [
                 'required',
                 'date',
-                'after_or_equal:today',
                 'date_format:Y-m-d',
-            ],
-        ];
+                'after_or_equal:today',
+            ];
+        }
+
+        return $rules;
     }
 }

@@ -25,5 +25,6 @@ Route::get('/tasks/{task}', [Api\TaskController::class, 'show']);
 Route::put('/tasks/{task}', [Api\TaskController::class, 'update']);
 Route::delete('/tasks/{task}', [Api\TaskController::class, 'destroy']);
 
+Route::get('/completed-tasks', [Api\TaskCompleteController::class, 'index']);
 Route::put('/tasks/{task}/complete', [Api\TaskCompleteController::class, 'update']);
 

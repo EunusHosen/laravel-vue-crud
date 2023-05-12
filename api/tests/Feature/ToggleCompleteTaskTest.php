@@ -10,9 +10,9 @@ class ToggleCompleteTaskTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_sets_complete_to_true_for_incomplete_task(): void
+    public function test_it_sets_completed_at_for_incomplete_task(): void
     {
-        $task = Task::factory()->create(['completed' => false]);
+        $task = Task::factory()->incomplete()->create();
 
         $response = $this->put('/api/tasks/' . $task->id . '/complete');
 
@@ -22,15 +22,12 @@ class ToggleCompleteTaskTest extends TestCase
             'completed' => true,
         ]);
 
-        $this->assertDatabaseHas('tasks', [
-            'id' => $task->id,
-            'completed' => true,
-        ]);
+        $this->assertNotNull($task->fresh()->completed_at);
     }
 
-    public function test_it_sets_complete_to_false_for_complete_task(): void
+    public function test_it_sets_completed_at_to_null_for_complete_task(): void
     {
-        $task = Task::factory()->create(['completed' => true]);
+        $task = Task::factory()->completed()->create();
 
         $response = $this->put('/api/tasks/' . $task->id . '/complete');
 
@@ -40,9 +37,6 @@ class ToggleCompleteTaskTest extends TestCase
             'completed' => false,
         ]);
 
-        $this->assertDatabaseHas('tasks', [
-            'id' => $task->id,
-            'completed' => false,
-        ]);
+        $this->assertNull($task->fresh()->completed_at);
     }
 }

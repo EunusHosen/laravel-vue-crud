@@ -14,7 +14,7 @@ defineProps({
   <li :key="task.id" class="flex items-center justify-between gap-x-6 py-5">
     <RouterLink :to="{ name: 'tasks.show', params: { id: task.id } }" class="min-w-0">
       <div class="flex items-start gap-x-3">
-        <p class="text-sm font-semibold leading-6 text-indigo-600">{{ task.name }}</p>
+        <p class="text-sm font-semibold leading-6 text-gray-600">{{ task.name }}</p>
 
         <p
           v-if="task.overdue"
@@ -24,7 +24,11 @@ defineProps({
         </p>
       </div>
       <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-        <p class="whitespace-nowrap">
+        <p class="whitespace-nowrap" v-if="task.completed">
+          Completed at
+          <time :datetime="task.completedAt">{{ task.completedAt }}</time>
+        </p>
+        <p class="whitespace-nowrap" v-else>
           Due on
           <time :datetime="task.dueDate">{{ task.dueDate }}</time>
         </p>

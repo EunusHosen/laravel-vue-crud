@@ -17,11 +17,12 @@ class TaskResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'completed' => !! $this->completed,
+            'completed' => !! $this->completed_at,
             'description' => $this->description,
-            'overdue' => $this->due_date->endOfDay()->isPast(),
+            'overdue' => ! $this->completed_at && $this->due_date->endOfDay()->isPast(),
             'dueDate' => $this->due_date->format('Y-m-d'),
-            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'completedAt' => $this->completed_at ? $this->completed_at->format('Y-m-d H:i:s') : null,
+            'createdAt' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }

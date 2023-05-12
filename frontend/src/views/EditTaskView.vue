@@ -1,27 +1,38 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { computed, reactive } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { useTasksStore } from '@/stores/tasks'
-import TaskForm from '@/components/tasks/TaskForm.vue'
 import MainContent from '@/components/MainContent.vue'
+import TaskForm from '@/components/tasks/TaskForm.vue'
 
 const errors = reactive({})
 
 const router = useRouter()
 
-const taskStore = useTasksStore()
 const appStore = useAppStore()
-const task = reactive({
-  name: 'Task name',
-  description: 'Task description here...',
-  dueDate: '2023-05-23'
-});
+const taskStore = useTasksStore()
 
-const submit = (task) => {
-  taskStore.addTask(task)
-  appStore.setSuccessMessage('Task updated successfully')
-  router.push({ name: 'home' })
+const id = router.currentRoute.value.params.id as number
+taskStore.fetchTask(id)
+
+const task = computed(() => {
+  return taskStore.currentTask
+})
+
+const submit = (updatedTask) => {
+  updatedTask.id = task.value.id
+  taskStore
+    .updateTask(updatedTask)
+    .then(() => {
+      appStore.setSuccessMessage('Task updated successfully')
+      router.push({ name: 'home' })
+    })
+    .catch((error) => {
+      Object.keys(error.response.data.errors).forEach((key) => {
+        errors[key] = error.response.data.errors[key]
+      })
+    })
 }
 </script>
 
@@ -29,6 +40,7 @@ const submit = (task) => {
   <MainContent title="Edit Task">
     <div class="mt-6 text-gray-600 max-w-4xl">
       <TaskForm
+        v-if="task.name"
         :name="task.name"
         :description="task.description"
         :due-date="task.dueDate"
