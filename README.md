@@ -19,6 +19,10 @@ git clone git@github.com:EunusHosen/laravel-vue-crud.git
 
 ### Frontend
 - Navigate to `/frontend` folder
+- Create a .env file in the root of the frontend folder and add the following record:
+```
+VITE_APP_API_URL=http://localhost/api
+```
 - Install javascript dependencies: `npm install`
 - Run frontend: `npm run dev`
 - Visit frontend: `http://localhost:5173`
