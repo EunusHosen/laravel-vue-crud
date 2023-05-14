@@ -5,4 +5,11 @@ export default interface TaskInterface {
   completed: boolean
   dueDate: string
   overdue?: boolean
+  createdAt: string
+  completedAt: string
+
+  meta: {
+    current_page: number
+    last_page: number
+  }
 }

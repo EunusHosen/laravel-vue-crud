@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import router from "@/router";
-import {useAppStore} from "@/stores/app";
-import {useTasksStore} from "@/stores/tasks";
+import router from '@/router'
+import { useAppStore } from '@/stores/app'
+import { useTasksStore } from '@/stores/tasks'
+import type TaskInterface from '@/types/Task'
 import DangerModal from '@/components/DangerModal.vue'
 
 const props = defineProps({
@@ -14,16 +15,17 @@ const props = defineProps({
 
 const show = ref(false)
 
-const tasksStore = useTasksStore();
+const tasksStore = useTasksStore()
 
 const showModal = () => {
   show.value = true
 }
 
 const deleteTask = () => {
-  tasksStore.deleteTask(props.task.id)
+  const route = props.task.completed ? 'tasks.completed' : 'home'
+  tasksStore.deleteTask(props.task as TaskInterface)
   useAppStore().setSuccessMessage('Task deleted successfully')
-  router.push({ name: 'home' })
+  router.push({ name: route })
   show.value = false
 }
 </script>

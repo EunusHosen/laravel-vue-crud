@@ -14,6 +14,10 @@ const tasks = computed(() => {
 
 <template>
   <MainContent title="Completed Tasks">
-    <Tasks :tasks="tasks" />
+    <Tasks
+      :tasks="tasks"
+      :next-page="tasksStore.fetchNextCompletedTasks"
+      :previous-page="tasksStore.fetchPreviousCompletedTasks"
+    />
   </MainContent>
 </template>

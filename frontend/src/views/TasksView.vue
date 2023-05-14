@@ -10,6 +10,14 @@ tasksStore.fetchTasks()
 const tasks = computed(() => {
   return tasksStore.tasks
 })
+
+const nextPage = () => {
+  tasksStore.fetchNextTasks()
+}
+
+const previousPage = () => {
+  tasksStore.fetchPreviousTasks()
+}
 </script>
 
 <template>
@@ -24,6 +32,6 @@ const tasks = computed(() => {
       </RouterLink>
     </template>
 
-    <Tasks :tasks="tasks" />
+    <Tasks :tasks="tasks" :next-page="nextPage" :previous-page="previousPage" />
   </MainContent>
 </template>
